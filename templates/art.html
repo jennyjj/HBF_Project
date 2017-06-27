@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Selection of art{% endblock %}
+{% block heading %}Selection of art{% endblock %}
+
+{% block content %}
+  <div class="row">
+  {% for image in images %}
+    <div class="col-xs-12 col-s-6 col-lg-4">
+      <div class="melon-well">
+        <a href="/image_processing">
+          <img class="image" src="{{ image['img_url'] }}">
+        </a>
+      </div>
+    </div>
+  {% endfor %}
+  </div>
+
+{% endblock %}
