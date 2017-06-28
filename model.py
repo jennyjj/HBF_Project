@@ -1,4 +1,4 @@
-"""Models and database functions for cars db."""
+"""Models and database functions for artsytrips db."""
 
 from flask_sqlalchemy import SQLAlchemy
 
@@ -9,66 +9,48 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 
-class Image(db.Model):
-    """Art images."""
+class Genre(db.Model):
+    """Art genres to choose from, in order to get back an itinerary."""
 
-    __tablename__ = "images"
+    __tablename__ = "genres"
 
-    image_id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
-    name = db.Column(db.String(30), nullable=False)
-    genre = db.Column(db.String(30), nullable=False)
-    img_url = db.Column(db.String(100), nullable=False)
+    genre_code = db.Column(db.String(100), primary_key=True, nullable=False)
+    genre_name = db.Column(db.String(100), nullable=True)
+    artist = db.Column(db.String(300), nullable=False)
+    img_url = db.Column(db.String(300), nullable=False)
 
-    museum = db.relationship('Museum')
+    # museum = db.relationship('Museum')
 
     def __repr__(self):
-        return "<Image id=%s name=%s genre=%s img_url=%s>" 
-        % (self.brand_id, self.name, self.genre, self.img_url)
+        return "<Genre genre_code=%s artist=%s img_url=%s>" % (self.genre_code, self.artist, self.img_url)
 
 
 class Museum(db.Model):
-    """Car model."""
+    """Museum model."""
 
-    __tablename__ = "models"
+    __tablename__ = "museums"
 
-    model_id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
-    year = db.Column(db.Integer, nullable=False)
-    brand_id = db.Column(db.String(3), db.ForeignKey('brands.brand_id'), nullable=False,)
-    name = db.Column(db.String(20), nullable=False)
+    museum_id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
+    name = db.Column(db.String(40), nullable=False)
+    genre_code = db.Column(db.String(60), db.ForeignKey('genres.genre_code'), nullable=False,)
+    address = db.Column(db.String(200), nullable=False)
 
-    brand = db.relationship('Brand')
+    genre = db.relationship('Genre')
 
-    # def __repr__(self):
-    #     return "<Model id=%s year=%s brand_id=%s name=%s>" 
-    #     % (self.model_id, self.year, self.brand_id, self.name)
+    def __repr__(self):
+        return "<Museum id=%s name=%s genre_code=%s address=%s>" % (self.museum_id, self.name, self.genre_code, self.address)
 
-class User(db.Model):
-    """Car model."""
+# class Trip(db.Model):
+#     """Car model."""
 
-    __tablename__ = "models"
+#     __tablename__ = "models"
 
-    model_id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
-    year = db.Column(db.Integer, nullable=False)
-    brand_id = db.Column(db.String(3), db.ForeignKey('brands.brand_id'), nullable=False,)
-    name = db.Column(db.String(20), nullable=False)
+#     model_id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
+#     year = db.Column(db.Integer, nullable=False)
+#     brand_id = db.Column(db.String(3), db.ForeignKey('brands.brand_id'), nullable=False,)
+#     name = db.Column(db.String(20), nullable=False)
 
-    brand = db.relationship('Brand')
-
-    # def __repr__(self):
-    #     return "<Model id=%s year=%s brand_id=%s name=%s>" 
-    #     % (self.model_id, self.year, self.brand_id, self.name)
-
-class Trip(db.Model):
-    """Car model."""
-
-    __tablename__ = "models"
-
-    model_id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
-    year = db.Column(db.Integer, nullable=False)
-    brand_id = db.Column(db.String(3), db.ForeignKey('brands.brand_id'), nullable=False,)
-    name = db.Column(db.String(20), nullable=False)
-
-    brand = db.relationship('Brand')
+#     brand = db.relationship('Brand')
 
     # def __repr__(self):
     #     return "<Model id=%s year=%s brand_id=%s name=%s>" 

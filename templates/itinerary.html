@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Itinerary{% endblock %}
+{% block heading %}Itinerary{% endblock %}
+
+{% block content %}
+  
+  Why don't you visit this museum:<br><br>
+
+  {{ museum.name }}<br>
+  {{ museum.address }}<br><br>
+
+  and this eatery:<br><br>
+
+  {{ restaurant_info[0] }}<br>
+  {{ restaurant_info[1] }}<br>
+  {{ restaurant_info[2] }}
+
+{% endblock %}

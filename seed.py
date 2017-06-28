@@ -1,42 +1,56 @@
 """Utility file to seed artsytrips database"""
 
-from model import Image, connect_to_db, db
+from model import Genre, Museum, connect_to_db, db
 from server import app
 
-def load_images():
-    """Load images into database."""
 
-    print "Images"
+def load_genres():
+    """Load genres into database."""
 
-    for i, row in enumerate(open("seed_data/u.data")):
+    print "Genres"
+
+    Genre.query.delete()
+
+    for row in open("seed_data/u.genre"):
         row = row.rstrip()
 
-        user_id, movie_id, score, timestamp = row.split("\t")
+        genre_id, genre_code, genre_name, artist, img_url = row.split("|")
 
-        user_id = int(user_id)
-        movie_id = int(movie_id)
-        score = int(score)
+        genre = Genre(genre_code=genre_code,
+        				genre_name=genre_name,
+        				artist=artist,
+        				img_url=img_url)
 
-        # We don't care about the timestamp, so we'll ignore this
+        db.session.add(genre)
 
-        rating = Rating(user_id=user_id,
-                        movie_id=movie_id,
-                        score=score)
+    	db.session.commit()
 
-        # We need to add to the session or it won't ever be stored
-        db.session.add(rating)
 
-        # provide some sense of progress
-        if i % 1000 == 0:
-            print i
+def load_museums():
+    """Load museums into database."""
 
-            # An optimization: if we commit after every add, the database
-            # will do a lot of work committing each record. However, if we
-            # wait until the end, on computers with smaller amounts of
-            # memory, it might thrash around. By committing every 1,000th
-            # add, we'll strike a good balance.
+    print "Museums"
 
-            db.session.commit()
+    Museum.query.delete()
 
-    # Once we're done, we should commit our work
-    db.session.commit()
+    for row in open("seed_data/u.museum"):
+        row = row.rstrip()
+
+        museum_id, name, genre_code, address = row.split("|")
+
+        museum = Museum(name=name,
+        				genre_code=genre_code,
+        				address=address)
+ 
+        db.session.add(museum)
+
+    	db.session.commit()
+
+
+if __name__ == "__main__":
+    connect_to_db(app)
+    db.create_all()
+
+    load_genres()
+    load_museums()
+    

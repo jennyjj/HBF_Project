@@ -5,11 +5,11 @@
 
 {% block content %}
   <div class="row">
-  {% for image in images %}
-    <div class="col-xs-12 col-s-6 col-lg-4">
-      <div class="melon-well">
-        <a href="/image_processing">
-          <img class="image" src="{{ image['img_url'] }}">
+  {% for genre in genres%}
+    <div class="col-xs-12 col-s-12 col-lg-12">
+      <div class="image">
+        <a href="/itinerary/{{genre.genre_code}}" >
+          <img class="image" id="{{ genre.genre_code }}" src="{{ genre.img_url }}" height="250" width="250">
         </a>
       </div>
     </div>
