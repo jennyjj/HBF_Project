@@ -1,8 +1,9 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, flash, redirect, session
 from flask_debugtoolbar import DebugToolbarExtension
 from jinja2 import StrictUndefined
+import os
 
-from model import Genre, Museum, connect_to_db
+from model import Genre, Museum, Trip, User, connect_to_db, db
 from request_yelp import get_restaurant
 
 app = Flask(__name__)
@@ -11,25 +12,85 @@ app.jinja_env.auto_reload = True
 
 app.secret_key = "ABC"
 
+
 @app.route('/')
 def go_home():
     """Goes to the homepage.  Homepage has user either login or register."""
+    if session.has_key("user_id"):
+            return redirect("/users/%s" % session['user_id'])
 
-    # Homepage welcomes user and presents login and registration options.
+
+    # # Homepage welcomes user and presents login and registration options.
     return render_template("index.html")
 
-# @app.route('/login_process')
-# def login():
-#   """Goes to the homepage.  Homepage has user either login or register."""
 
-#   # Homepage welcomes user and presents login and registration options.
-#   return render_template("index.html")
 
-# @app.route('/profile', methods=["GET"])
-# def show_profile():
-#   """Shows profile information for user."""
+@app.route('/register', methods=['POST'])
+def register_process():
+    """Process registration."""
 
-#   return render_template(".html", )
+    # Get form variables
+    name = request.form["name"]
+    email = request.form["email"]
+    password = request.form["password"]
+
+    new_user = User(name=name, email=email, password=password)
+
+    db.session.add(new_user)
+    db.session.commit()
+
+    flash("User %s added." % email)
+    return redirect("/users/%s" % new_user.user_id)
+
+
+@app.route('/login')
+def login_form():
+    """Show login form."""
+
+    return render_template("login_form.html")
+
+
+@app.route('/login', methods=['POST'])
+def login_process():
+    """Process login."""
+
+    # Get form variables
+    email = request.form["email"]
+    password = request.form["password"]
+
+    user = User.query.filter_by(email=email).first()
+
+    if not user:
+        flash("No such user")
+        return redirect("/login")
+
+    if user.password != password:
+        flash("Incorrect password")
+        return redirect("/login")
+
+    session["user_id"] = user.user_id
+
+    flash("Logged in")
+    return redirect("/users/%s" % user.user_id)
+
+@app.route('/logout')
+def logout():
+    """Log out."""
+    if session.has_key('user_id'):
+        del session["user_id"]
+        flash("Logged Out.")
+    return redirect("/")
+
+@app.route('/users/<user_id>')
+def show_profile(user_id):
+    """Shows profile information and trips for user."""
+ 
+    user = User.query.filter_by(user_id=user_id).first()
+
+    trips = Trip.query.filter_by(user_id=user_id).all()
+
+    return render_template("user_profile.html", user=user, trips=trips)
+
 
 @app.route('/images')
 def show_images():
@@ -47,9 +108,38 @@ def show_itinerary(genre_code):
 
     location = museum.address
 
-    restaurant_info = get_restaurant(location)
+    resp = get_restaurant(location)
 
-    return render_template("itinerary.html", museum=museum, restaurant_info=restaurant_info)
+    if resp == None:
+        return "An error has occurred."
+    restaurant_id, restaurant_name, restaurant_location1, restaurant_location2 = list(resp)
+
+    if session["user_id"]:
+        user_id = session["user_id"]
+
+        trip = Trip(user_id=user_id,
+                museum_id=museum.museum_id,
+                restaurant_id=restaurant_id,
+                restaurant_name=restaurant_name)  
+
+        user_id = session.get("user_id")
+
+        db.session.add(trip)
+
+        db.session.commit()  
+
+    return render_template("itinerary.html", museum=museum, restaurant_name=restaurant_name, 
+                        restaurant_location1=restaurant_location1, restaurant_location2=restaurant_location2)
+
+
+@app.route('/map')
+def get_map():
+    """Give a map marking the chosen museum and restaurant for the user."""
+
+    key = os.environ['GOOGLE_API_KEY']
+
+    return render_template("map.html", key=key)
+
 
 
 if __name__ == "__main__":

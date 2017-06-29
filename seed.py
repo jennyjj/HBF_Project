@@ -1,6 +1,6 @@
 """Utility file to seed artsytrips database"""
 
-from model import Genre, Museum, connect_to_db, db
+from model import Genre, Museum, Trip, User, connect_to_db, db
 from server import app
 
 
@@ -47,10 +47,31 @@ def load_museums():
     	db.session.commit()
 
 
+def load_users():
+    """Load museums into database."""
+
+    print "Users"
+
+    User.query.delete()
+
+    for row in open("seed_data/fake_user_data.csv"):
+        row = row.rstrip()
+
+        name, email, password = row.split(",")
+
+        user = User(name=name,
+                    email=email,
+                    password=password)
+
+        db.session.add(user)
+
+
+        db.session.commit()
+
 if __name__ == "__main__":
     connect_to_db(app)
     db.create_all()
 
     load_genres()
     load_museums()
-    
+    load_users()

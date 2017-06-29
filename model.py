@@ -35,26 +35,43 @@ class Museum(db.Model):
     genre_code = db.Column(db.String(60), db.ForeignKey('genres.genre_code'), nullable=False,)
     address = db.Column(db.String(200), nullable=False)
 
-    genre = db.relationship('Genre')
+    genre = db.relationship('Genre', backref='museums')
 
     def __repr__(self):
         return "<Museum id=%s name=%s genre_code=%s address=%s>" % (self.museum_id, self.name, self.genre_code, self.address)
 
-# class Trip(db.Model):
-#     """Car model."""
 
-#     __tablename__ = "models"
+class Trip(db.Model):
+    """Trip model."""
 
-#     model_id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
-#     year = db.Column(db.Integer, nullable=False)
-#     brand_id = db.Column(db.String(3), db.ForeignKey('brands.brand_id'), nullable=False,)
-#     name = db.Column(db.String(20), nullable=False)
+    __tablename__ = "trips"
 
-#     brand = db.relationship('Brand')
+    trip_id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
+    museum_id = db.Column(db.Integer, db.ForeignKey('museums.museum_id'), nullable=False)
+    restaurant_id = db.Column(db.String(100), nullable=False)
+    restaurant_name = db.Column(db.String(40), nullable=False)
 
-    # def __repr__(self):
-    #     return "<Model id=%s year=%s brand_id=%s name=%s>" 
-    #     % (self.model_id, self.year, self.brand_id, self.name)
+    museum = db.relationship('Museum', backref='trips')
+    user = db.relationship('User', backref='trips')
+
+    def __repr__(self):
+        return "<Trip id=%s museum_id=%s restaurant_id=%s>" % (self.trip_id, self.museum_id, self.restaurant_id)
+
+
+class User(db.Model):
+    """User model."""
+
+    __tablename__ = "users"
+
+    user_id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
+    name = db.Column(db.String(40), nullable=False)
+    email = db.Column(db.String(60), nullable=False)
+    password = db.Column(db.String(20), nullable=False)
+
+    def __repr__(self):
+        return "<User id=%s name=%s email=%s>" % (self.user_id, self.name, self.email)
+
 # Helper functions
 
 def init_app():
