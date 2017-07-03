@@ -33,9 +33,11 @@ class Museum(db.Model):
     museum_id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
     name = db.Column(db.String(100), nullable=False)
     genre_code = db.Column(db.String(60), db.ForeignKey('genres.genre_code'), nullable=False,)
-    address = db.Column(db.String(200), nullable=False)
+    address1 = db.Column(db.String(200), nullable=False)
+    address2 = db.Column(db.String(200), nullable=False)
     latitude = db.Column(db.String(20), nullable=False)
     longitude = db.Column(db.String(20), nullable=False)
+    image = db.Column(db.String(300), nullable=True)
 
     genre = db.relationship('Genre', backref='museums')
 
@@ -53,14 +55,14 @@ class Trip(db.Model):
     museum_id = db.Column(db.Integer, db.ForeignKey('museums.museum_id'), nullable=False)
     restaurant_id = db.Column(db.String(100), nullable=False)
     restaurant_name = db.Column(db.String(40), nullable=False)
-    restaurant_latitude = db.Column(db.Integer, nullable=False)
-    restaurant_longitude = db.Column(db.Integer, nullable=False)
+    restaurant_latitude = db.Column(db.Float, nullable=False)
+    restaurant_longitude = db.Column(db.Float, nullable=False)
 
     museum = db.relationship('Museum', backref='trips')
     user = db.relationship('User', backref='trips')
 
     def __repr__(self):
-        return "<Trip id=%s user_id=% museum_id=%s restaurant_id=%s>" % (self.trip_id, self.user_id, self.museum_id, self.restaurant_id)
+        return "<Trip id=%s user_id=%s museum_id=%s restaurant_id=%s>" % (self.trip_id, self.user_id, self.museum_id, self.restaurant_id)
 
 
 class User(db.Model):

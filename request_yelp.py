@@ -40,5 +40,6 @@ def get_restaurant(location):
 	result_chosen_location = result_chosen['location']['display_address'][0]
 	result_chosen_location2 = result_chosen['location']['display_address'][1]
 	result_chosen_coordinates = result_chosen['coordinates']
+	result_chosen_image = result_chosen['image_url']
 
-	return result_chosen_id, result_chosen_name, result_chosen_location, result_chosen_location2, result_chosen_coordinates
+	return result_chosen_id, result_chosen_name, result_chosen_location, result_chosen_location2, result_chosen_coordinates, result_chosen_image

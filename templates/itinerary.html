@@ -8,16 +8,20 @@
   Why don't you visit this museum:<br><br>
 
   {{ museum.name }}<br>
-  {{ museum.address }}<br><br>
+  {{ museum.address1 }}<br>
+  {{ museum.address2 }}<br>
+  <img class="image" id="museum_image" src="{{ museum.image }}" height="250" width="250">}<br><br>
 
   and this eatery:<br><br>
 
   {{ restaurant_name }}<br>
   {{ restaurant_location1 }}<br>
-  {{ restaurant_location2 }}<br><br>
+  {{ restaurant_location2 }}<br>
+  <img class="image" id="{{ restaurant_image }}" src="{{ restaurant_image }}" height="250" width="250"><br><br>
 
-  <a href='/map/{{ trip.trip_id }}'>Get a map of this trip</a><br>
 
-  <a href='/images'>Plan another trip</a>
+  <a href='/map/{{ trip.trip_id }}'>Go to a map</a><br>
+  <a href='/images'>Plan another trip</a><br>
+  <a href='/users/{{ trip.user_id }}'>See your saved trips</a>
 
 {% endblock %}

@@ -14,7 +14,7 @@ Email: {{ user.email }}<br>
 <h2>Trips</h2>
 <ul>
  	{% for trip in trips %}
-      <li> {{ trip.museum.name }}, {{ trip.restaurant_name }} </li>
+      <li> <a href='/map/{{ trip.trip_id }}'>{{ trip.museum.name }}, {{ trip.restaurant_name }}</a> </li>
     {% endfor %}
 </ul>>
 

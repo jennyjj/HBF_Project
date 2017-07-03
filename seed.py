@@ -36,13 +36,15 @@ def load_museums():
     for row in open("seed_data/u.museum"):
         row = row.rstrip()
 
-        museum_id, name, genre_code, address, latitude, longitude = row.split("|")
+        museum_id, name, genre_code, address1, address2, latitude, longitude, image = row.split("|")
 
         museum = Museum(name=name,
         				genre_code=genre_code,
-        				address=address,
+        				address1=address1,
+                        address2=address2,
                         latitude=latitude,
-                        longitude=longitude)
+                        longitude=longitude,
+                        image=image)
  
         db.session.add(museum)
 

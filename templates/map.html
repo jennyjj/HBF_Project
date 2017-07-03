@@ -4,31 +4,59 @@
 {% block heading %}How to get there...{% endblock %}
 
 {% block content %}
- <div id="map"></div>
     <script>
+      var geocoder;
       var map;
       function initMap() {
-        map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: 37.774, lng: -122.431},
-          zoom: 8
-        });
+        geocoder = new google.maps.Geocoder();
+        var latlng = new google.maps.LatLng(37.774, -122.431);
+        var mapOptions = {
+          zoom: 8,
+          center: latlng
+        }
+        map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
         var museum = new google.maps.LatLng({{ trip.museum.latitude }}, {{trip.museum.longitude}})
         var marker = new google.maps.Marker({
-          position: museum,
-          map: map,
-          title: '{{ trip.museum.name }}',
-        });
+            position: museum,
+            map: map,
+            title: '{{ trip.museum.name }}',
+         });
 
         var restaurant = new google.maps.LatLng({{ trip.restaurant_latitude }}, {{ trip.restaurant_longitude }})
         var marker = new google.maps.Marker({
-          position: restaurant,
-          map: map,
-          title: '{{ trip.restaurant_name }}',
+            position: restaurant,
+            map: map,
+            title: '{{ trip.restaurant_name }}',
+        });
+      }
+
+      function codeAddress() {
+        var address = document.getElementById('address').value;
+        geocoder.geocode( { 'address': address}, function(results, status) {
+          if (status == 'OK') {
+            map.setCenter(results[0].geometry.location);
+            var marker = new google.maps.Marker({
+              map: map,
+              position: results[0].geometry.location,
+              title: 'Your location'
+            });
+          } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+          }
         });
       }
 
     </script>
+
+  <body onload="initMap()">
+   <div id="map" style="width: 600px; height: 500px;"></div>
+    <div>
+      <input id="address" type="textbox">
+      <input type="button" value="Plot where you are" onclick="codeAddress()">
+    </div>
+  </body>
+
     <script src="https://maps.googleapis.com/maps/api/js?key={{ key }}&callback=initMap"
     async defer></script>
 {% endblock %}

@@ -1,8 +1,8 @@
-1|Asian Art Museum|asa|200 Larkin Street, San Francisco, CA 94102|37.7796308|-122.4165973
-2|de Young Museum|aoa|Golden Gate Park, 50 Hagiwara Tea Garden Drive, San Francisco 94118|37.771468|-122.468681
-3|SFMOMA|exp|151 3rd Street, San Francisco, CA 94103|37.785716|-122.40105
-4|Legion of Honor Museum|imp|Lincoln Park, 100 34th Avenue, San Francisco, CA 94121|37.784927|-122.500802
-5|International Art Museum of America|cip|1025 Market Street, San Francisco, CA 94103|37.7815814|-122.4108475
-6|Contemporary Jewish Museum|jea|736 Mission Street, San Francisco, CA 94103|37.785944|-122.403802
-7|Oakland Museum of California|caa|1000 Oak Street, Oakland, CA 94607|37.7987338806611|-122.263603404755
-8|The UC Berkeley Art Museum and Pacific Film Archive|mim|2155 Center Street, Berkeley, CA 94704|37.8707553625942|-122.266995275814
+1|Asian Art Museum|asa|200 Larkin Street|San Francisco, CA 94102|37.7796308|-122.4165973|https://s3-media2.fl.yelpcdn.com/bphoto/Jk6Fd3NHDGmk45PYOCkcOw/o.jpg
+2|de Young Museum|aoa|Golden Gate Park, 50 Hagiwara Tea Garden Drive|San Francisco 94118|37.771468|-122.468681|https://s3-media3.fl.yelpcdn.com/bphoto/-2UNgxck_JRD73IpWVaJIg/o.jpg
+3|SFMOMA|exp|151 3rd Street|San Francisco, CA 94103|37.785716|-122.40105|https://s3-media1.fl.yelpcdn.com/bphoto/-WIg5ZJcQ553ZC4n-wYOkA/o.jpg
+4|Legion of Honor Museum|imp|Lincoln Park, 100 34th Avenue|San Francisco, CA 94121|37.784927|-122.500802|https://s3-media2.fl.yelpcdn.com/bphoto/KxnDORvTdQD7O1B1aNdGYA/o.jpg
+5|International Art Museum of America|cip|1025 Market Street|San Francisco, CA 94103|37.7815814|-122.4108475|https://s3-media2.fl.yelpcdn.com/bphoto/y4hJznwRZQvbotAnZ6hx9Q/o.jpg
+6|Contemporary Jewish Museum|jea|736 Mission Street|San Francisco, CA 94103|37.785944|-122.403802|https://s3-media3.fl.yelpcdn.com/bphoto/-67CWMviCHTk2Vaj_YMBbQ/o.jpg
+7|Oakland Museum of California|caa|1000 Oak Street|Oakland, CA 94607|37.7987338806611|-122.263603404755|https://s3-media2.fl.yelpcdn.com/bphoto/CZ3jCaXhw2eJqImXwsmxAQ/o.jpg
+8|The UC Berkeley Art Museum and Pacific Film Archive|mim|2155 Center Street|Berkeley, CA 94704|37.8707553625942|-122.266995275814|https://static.dezeen.com/uploads/2016/02/uc-berkeley-art-museum-pacific-film-archive-opening_dezeen_936_8.jpg
