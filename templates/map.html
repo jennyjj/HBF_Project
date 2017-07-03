@@ -12,7 +12,22 @@
           center: {lat: 37.774, lng: -122.431},
           zoom: 8
         });
+
+        var museum = new google.maps.LatLng({{ trip.museum.latitude }}, {{trip.museum.longitude}})
+        var marker = new google.maps.Marker({
+          position: museum,
+          map: map,
+          title: '{{ trip.museum.name }}',
+        });
+
+        var restaurant = new google.maps.LatLng({{ trip.restaurant_latitude }}, {{ trip.restaurant_longitude }})
+        var marker = new google.maps.Marker({
+          position: restaurant,
+          map: map,
+          title: '{{ trip.restaurant_name }}',
+        });
       }
+
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key={{ key }}&callback=initMap"
     async defer></script>

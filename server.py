@@ -16,9 +16,8 @@ app.secret_key = "ABC"
 @app.route('/')
 def go_home():
     """Goes to the homepage.  Homepage has user either login or register."""
-    if session.has_key("user_id"):
-            return redirect("/users/%s" % session['user_id'])
-
+    # if session.has_key("user_id"):
+    #         return redirect("/users/%s" % session['user_id'])
 
     # # Homepage welcomes user and presents login and registration options.
     return render_template("index.html")
@@ -38,6 +37,8 @@ def register_process():
 
     db.session.add(new_user)
     db.session.commit()
+
+    session["user_id"] = user.user_id
 
     flash("User %s added." % email)
     return redirect("/users/%s" % new_user.user_id)
@@ -111,8 +112,14 @@ def show_itinerary(genre_code):
     resp = get_restaurant(location)
 
     if resp == None:
-        return "An error has occurred."
-    restaurant_id, restaurant_name, restaurant_location1, restaurant_location2 = list(resp)
+        return "An error has occurred."   
+    restaurant_id, restaurant_name, restaurant_location1, restaurant_location2, restaurant_coordinates = list(resp)
+
+    restaurant_latitude = int(restaurant_coordinates['latitude'])  
+    restaurant_longitude = int(restaurant_coordinates['longitude']) 
+
+    if None in list(resp):
+        return "An error has occurred"
 
     if session["user_id"]:
         user_id = session["user_id"]
@@ -120,7 +127,9 @@ def show_itinerary(genre_code):
         trip = Trip(user_id=user_id,
                 museum_id=museum.museum_id,
                 restaurant_id=restaurant_id,
-                restaurant_name=restaurant_name)  
+                restaurant_name=restaurant_name,
+                restaurant_longitude=restaurant_longitude,
+                restaurant_latitude=restaurant_latitude)  
 
         user_id = session.get("user_id")
 
@@ -129,16 +138,18 @@ def show_itinerary(genre_code):
         db.session.commit()  
 
     return render_template("itinerary.html", museum=museum, restaurant_name=restaurant_name, 
-                        restaurant_location1=restaurant_location1, restaurant_location2=restaurant_location2)
+                        restaurant_location1=restaurant_location1, restaurant_location2=restaurant_location2, trip=trip)
 
 
-@app.route('/map')
-def get_map():
+@app.route('/map/<trip_id>')
+def get_map(trip_id):
     """Give a map marking the chosen museum and restaurant for the user."""
+
+    trip = Trip.query.filter_by(trip_id=trip_id).first()
 
     key = os.environ['GOOGLE_API_KEY']
 
-    return render_template("map.html", key=key)
+    return render_template("map.html", key=key, trip=trip)
 
 
 
