@@ -132,8 +132,6 @@ def show_itinerary(genre_code):
                 restaurant_longitude=restaurant_longitude,
                 restaurant_latitude=restaurant_latitude)  
 
-        user_id = session.get("user_id")
-
         db.session.add(trip)
 
         db.session.commit()  
@@ -146,15 +144,13 @@ def show_itinerary(genre_code):
                         trip=trip)
 
 
-@app.route('/map/<trip_id>')
+@app.route('/map/<trip_id>', methods=["POST"])
 def get_map(trip_id):
     """Give a map marking the chosen museum and restaurant for the user."""
 
     user_location = request.form.get("user_location")
-
     trip = Trip.query.filter_by(trip_id=trip_id).first()
-    print trip
-    key = os.environ['GOOGLE_API_KEY']
+    key = os.environ['GOOGLE_API_DIRECTIONS_KEY']
 
     return render_template("map.html", key=key, trip=trip, user_location=user_location)
 
