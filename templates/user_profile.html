@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
-{% block title %}Selection of art{% endblock %}
-{% block heading %}Selection of art{% endblock %}
+{% block title %}User profile{% endblock %}
+{% block heading %}Your profile{% endblock %}
 
 {% block content %}
 
@@ -14,9 +14,22 @@ Email: {{ user.email }}<br>
 <h2>Trips</h2>
 <ul>
  	{% for trip in trips %}
-      <li> <a href='/map/{{ trip.trip_id }}'>{{ trip.museum.name }}, {{ trip.restaurant_name }}</a> </li>
+      <li> {{ trip.museum.name }}, {{ trip.restaurant_name }} </li>
     {% endfor %}
-</ul>>
+</ul><br><br>
+
+Get directions for a trip
+<form action='/map/from_profile_page' method="POST">
+	Trip:
+	  	<select name="trip_id">
+	  		{% for trip in trips %}
+      			<option value="{{ trip.trip_id }}">{{ trip.museum.name }}, {{ trip.restaurant_name }}</option>
+      		{% endfor %}
+    	</select><br>
+    Your location:
+    	<input type="text" name="user_location"><br>
+    <input type="submit" value="Go to directions">
+</form>
 
 <a href='/images'>Start planning a trip</a>
 

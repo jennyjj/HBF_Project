@@ -144,16 +144,27 @@ def show_itinerary(genre_code):
                         trip=trip)
 
 
+@app.route('/map/from_profile_page', methods=["POST"])
+def get_map_from_profile_page():
+    """Give a map and directions with starting and ending points chosen by user."""
+
+    user_location = request.form.get("user_location")
+    trip_id = request.form.get("trip_id")
+    trip = Trip.query.filter_by(trip_id=trip_id).first()
+    key = os.environ['GOOGLE_API_DIRECTIONS_KEY']
+
+    return render_template("map.html", key=key, trip=trip, user_location=user_location)
+
+
 @app.route('/map/<trip_id>', methods=["POST"])
 def get_map(trip_id):
-    """Give a map marking the chosen museum and restaurant for the user."""
+    """Give a map and directions with starting and ending points chosen by user."""
 
     user_location = request.form.get("user_location")
     trip = Trip.query.filter_by(trip_id=trip_id).first()
     key = os.environ['GOOGLE_API_DIRECTIONS_KEY']
 
     return render_template("map.html", key=key, trip=trip, user_location=user_location)
-
 
 
 if __name__ == "__main__":
