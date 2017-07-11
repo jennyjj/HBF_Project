@@ -58,7 +58,7 @@ def load_users():
 
     User.query.delete()
 
-    for row in open("seed_data/fake_user_data.csv"):
+    for row in open("seed_data/fake_data.csv"):
         row = row.rstrip()
 
         name, email, password = row.split(",")

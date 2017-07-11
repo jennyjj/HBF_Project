@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, flash, redirect, session
+from flask import Flask, request, render_template, flash, redirect, session, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 from jinja2 import StrictUndefined
 import os
@@ -19,7 +19,6 @@ def go_home():
     # if session.has_key("user_id"):
     #         return redirect("/users/%s" % session['user_id'])
 
-    # # Homepage welcomes user and presents login and registration options.
     return render_template("index.html")
 
 
@@ -32,6 +31,10 @@ def register_process():
     name = request.form["name"]
     email = request.form["email"]
     password = request.form["password"]
+
+    if User.query.filter_by(email=email).first():
+        flash("User %s already exists." % email)
+        return redirect("/")
 
     new_user = User(name=name, email=email, password=password)
 
@@ -82,7 +85,7 @@ def logout():
         flash("Logged Out.")
     return redirect("/")
 
-@app.route('/users/<user_id>')
+@app.route('/users/<int:user_id>')
 def show_profile(user_id):
     """Shows profile information and trips for user."""
  
@@ -156,7 +159,7 @@ def get_map_from_profile_page():
     return render_template("map.html", key=key, trip=trip, user_location=user_location)
 
 
-@app.route('/map/<trip_id>', methods=["POST"])
+@app.route('/map/<int:trip_id>', methods=["POST"])
 def get_map(trip_id):
     """Give a map and directions with starting and ending points chosen by user."""
 
@@ -165,6 +168,25 @@ def get_map(trip_id):
     key = os.environ['GOOGLE_API_DIRECTIONS_KEY']
 
     return render_template("map.html", key=key, trip=trip, user_location=user_location)
+
+
+@app.route('/favorite', methods=["POST"])
+def mark_favorite_status():
+    """Update favorites table as to whether they have a favorited trip."""
+
+    trip_id = request.form.get("trip_id")
+    favorited = request.form.get("favorited")
+
+    trip = Trip.query.filter_by(trip_id=trip_id).first()
+
+    trip.favorited = favorited
+
+    db.session.commit()
+
+    response = { 'trip_id': trip_id, 'favorited': favorited}
+    print response
+
+    return jsonify(response)
 
 
 if __name__ == "__main__":

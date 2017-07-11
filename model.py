@@ -19,8 +19,6 @@ class Genre(db.Model):
     artist = db.Column(db.String(300), nullable=False)
     img_url = db.Column(db.String(300), nullable=False)
 
-    # museum = db.relationship('Museum')
-
     def __repr__(self):
         return "<Genre genre_code=%s artist=%s img_url=%s>" % (self.genre_code, self.artist, self.img_url)
 
@@ -57,6 +55,7 @@ class Trip(db.Model):
     restaurant_name = db.Column(db.String(40), nullable=False)
     restaurant_latitude = db.Column(db.Float, nullable=False)
     restaurant_longitude = db.Column(db.Float, nullable=False)
+    favorited = db.Column(db.Boolean, default=False, nullable=False)
 
     museum = db.relationship('Museum', backref='trips')
     user = db.relationship('User', backref='trips')
@@ -78,7 +77,6 @@ class User(db.Model):
     def __repr__(self):
         return "<User id=%s name=%s email=%s>" % (self.user_id, self.name, self.email)
 
-# Helper functions
 
 def init_app():
     # So that we can use Flask-SQLAlchemy, we'll make a Flask app.

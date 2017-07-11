@@ -2,6 +2,7 @@
 
 {% block title %}User profile{% endblock %}
 {% block heading %}Your profile{% endblock %}
+    
 
 {% block content %}
 
@@ -14,8 +15,12 @@ Email: {{ user.email }}<br>
 <h2>Trips</h2>
 <ul>
  	{% for trip in trips %}
-      <li> {{ trip.museum.name }}, {{ trip.restaurant_name }} </li>
-    {% endfor %}
+    {% if trip.favorited == False %}
+      <li><span class="favorite_star" data-trip-id="{{ trip.trip_id }}"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></span> {{ trip.museum.name }}, {{ trip.restaurant_name }} </li>
+    {% else %}
+      <li><span class="favorite_star.favorited" data-trip-id="{{ trip.trip_id }}"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></span> {{ trip.museum.name }}, {{ trip.restaurant_name }} </li>
+    {% endif %}  
+  {% endfor %}
 </ul><br><br>
 
 Get directions for a trip
@@ -24,7 +29,7 @@ Get directions for a trip
 	  	<select name="trip_id">
 	  		{% for trip in trips %}
       			<option value="{{ trip.trip_id }}">{{ trip.museum.name }}, {{ trip.restaurant_name }}</option>
-      		{% endfor %}
+      	{% endfor %}
     	</select><br>
     Your location:
     	<input type="text" name="user_location"><br>
@@ -33,5 +38,7 @@ Get directions for a trip
 
 <a href='/images'>Start planning a trip</a>
 
+<script src="http://code.jquery.com/jquery.js"></script>
+<script src="/static/js/favorites.js"></script>
 
 {% endblock %}
