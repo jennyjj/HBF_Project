@@ -78,6 +78,39 @@ class User(db.Model):
         return "<User id=%s name=%s email=%s>" % (self.user_id, self.name, self.email)
 
 
+def example_data():
+    genre = Genre(genre_code='asa',
+                genre_name='Asian Art',
+                artist='Jenny Kang',
+                img_url='https://abc/123.jpg')
+    db.session.add(genre)
+
+    museum = Museum(name='Happy Museum',
+                genre_code='asa',
+                address1='123 Kind Road',
+                address2='Memory Future, CA 19009',
+                latitude=37.123,
+                longitude=-122.123,
+                image='https://honey/milk.jpg')
+    db.session.add(museum)
+
+    user = User(name='Healthy Child',
+                email='healthy@gmail.com',
+                password='111')
+    db.session.add(user)
+
+    trip = Trip(user_id=1,
+                museum_id=1,
+                restaurant_id="Thanksgiving Hall",
+                restaurant_name="Thanksgiving Hall",
+                restaurant_latitude=37.456,
+                restaurant_longitude=-122.768,
+                favorited=True)
+    db.session.add(trip)
+
+    db.session.commit()
+
+
 def init_app():
     # So that we can use Flask-SQLAlchemy, we'll make a Flask app.
     from flask import Flask
@@ -87,11 +120,11 @@ def init_app():
     print "Connected to DB."
 
 
-def connect_to_db(app):
+def connect_to_db(app, db_uri='postgres:///artsytrips'):
     """Connect the database to our Flask app."""
 
     # Configure to use our database.
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres:///artsytrips'
+    app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
     app.config['SQLALCHEMY_ECHO'] = False
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.app = app

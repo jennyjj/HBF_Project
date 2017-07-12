@@ -54,7 +54,7 @@ def login_form():
     return render_template("login_form.html")
 
 
-@app.route('/login', methods=['POST'])
+@app.route('/login_process', methods=['POST'])
 def login_process():
     """Process login."""
 
@@ -77,6 +77,7 @@ def login_process():
     flash("Logged in")
     return redirect("/users/%s" % user.user_id)
 
+
 @app.route('/logout')
 def logout():
     """Log out."""
@@ -84,6 +85,7 @@ def logout():
         del session["user_id"]
         flash("Logged Out.")
     return redirect("/")
+
 
 @app.route('/users/<int:user_id>')
 def show_profile(user_id):
@@ -180,11 +182,9 @@ def mark_favorite_status():
     trip = Trip.query.filter_by(trip_id=trip_id).first()
 
     trip.favorited = favorited
-
     db.session.commit()
 
     response = { 'trip_id': trip_id, 'favorited': favorited}
-    print response
 
     return jsonify(response)
 

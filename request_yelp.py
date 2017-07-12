@@ -27,9 +27,15 @@ def get_restaurant(location):
 
 	params = dict(term='restaurants', location=location, radius=40000) # search conditions
 
-	response = requests.get('https://api.yelp.com/v3/businesses/search',
+	response = ""
+	while response == "":
+		try:
+			response = requests.get('https://api.yelp.com/v3/businesses/search',
 		            params=params,
 	    	        headers=headers) # get businesses from keyword search
+		except:
+			time.sleep(5)
+			continue
 
 	result = response.json()
 

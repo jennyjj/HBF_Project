@@ -18,7 +18,7 @@ Email: {{ user.email }}<br>
     {% if trip.favorited == False %}
       <li><span class="favorite_star" data-trip-id="{{ trip.trip_id }}"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></span> {{ trip.museum.name }}, {{ trip.restaurant_name }} </li>
     {% else %}
-      <li><span class="favorite_star.favorited" data-trip-id="{{ trip.trip_id }}"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></span> {{ trip.museum.name }}, {{ trip.restaurant_name }} </li>
+      <li><span class="favorite_star favorited" data-trip-id="{{ trip.trip_id }}"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></span> {{ trip.museum.name }}, {{ trip.restaurant_name }} </li>
     {% endif %}  
   {% endfor %}
 </ul><br><br>
@@ -38,6 +38,9 @@ Get directions for a trip
 
 <a href='/images'>Start planning a trip</a>
 
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/
+     3.3.7/js/bootstrap.min.js"></script>
 <script src="http://code.jquery.com/jquery.js"></script>
 <script src="/static/js/favorites.js"></script>
 
