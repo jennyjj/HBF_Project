@@ -18,9 +18,53 @@ def go_home():
     """Goes to the homepage.  Homepage has user either login or register."""
     # if session.has_key("user_id"):
     #         return redirect("/users/%s" % session['user_id'])
-
     return render_template("index.html")
 
+@app.route("/favorite_genres.json")
+def get_genres_favorited_by_users():
+    """Return data about genres favorited."""
+
+    trips_favorited = Trip.query.filter_by(favorited=True).all()
+
+    museum_ids = []
+    for trip in trips_favorited:
+        trips_favorited.append(trip.museum_id)
+    
+    museums = []
+    for id in museum_ids:
+        museum = Museum.query.filter_by(museum_id=id)
+        museums.append(museum)
+
+    dict_genres = {}
+    for museum in museums:
+        genre_name = museum.genre.genre_name
+        dict_genres[genre_name] = dict_genres.get(genre_name, 0) + 1
+
+    genre_names = []
+    counts = []
+    for genre_name, count in dict_genres.items():
+        genre_names.append(genre_name)
+        counts.append(count)       
+
+    data_dict = {
+            "labels": genre_names,
+            "datasets": [
+                {
+                    "data": counts,
+                    "backgroundColor": [
+                        "#FF6384",
+                        "#36A2EB",
+                        "#FFCE56"
+                    ],
+                    "hoverBackgroundColor": [
+                        "#FF6384",
+                        "#36A2EB",
+                        "#FFCE56"
+                    ]
+                }]
+        }
+
+    return jsonify(data_dict)
 
 
 @app.route('/register', methods=['POST'])

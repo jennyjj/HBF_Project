@@ -40,7 +40,7 @@ class Museum(db.Model):
     genre = db.relationship('Genre', backref='museums')
 
     def __repr__(self):
-        return "<Museum id=%s name=%s genre_code=%s address=%s>" % (self.museum_id, self.name, self.genre_code, self.address)
+        return "<Museum id=%s name=%s genre_code=%s>" % (self.museum_id, self.name, self.genre_code)
 
 
 class Trip(db.Model):

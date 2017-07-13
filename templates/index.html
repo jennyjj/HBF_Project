@@ -5,12 +5,98 @@
 
 {% block content %}
 
+ <div class="favorite-graph">
+    <canvas id="barChart"></canvas>
+    <div id="barLegend" class="chart-legend"></div>
+  </div>
+
+  <script>
+    var options = {
+      responsive: true
+    };
+
+    // Make Donut Chart of percent of different types of Melons
+    var ctx_bar = $("#barChart").get(0).getContext("2d");
+
+    $.get("/favorite_genres.json", function (data) {
+        console.log("Test");
+      var myBarChart = new Chart(ctx_bar, {
+                                              type: 'bar',
+                                              data: data,
+                                              options: options
+                                            });
+      $('#barLegend').html(myBarChart.generateLegend());
+    });
+
+
+  </script>
+
 {% if 'user_id' in session %}
     <h2>Welcome back to Artsy Trips!</h2>
     <a href="/images">Plan a trip</a>
 
+    <h2> Artsy Trips Users' Favorites </h2>
+
+  <div class="user-chart">
+    <canvas id="barChart"></canvas>
+    <div id="barLegend" class="chart-legend"></div>
+  </div>
+
+
+  <script>
+    var options = {
+      responsive: true
+    };
+
+    // Make bar chart of percentage of different genres favorited.
+    var ctx_bar = $("#barChart").get(0).getContext("2d");
+
+    $.get("/genre-names.json", function (data) {
+      var myBarChart = new Chart(ctx_bar, {
+                                              type: 'bar',
+                                              data: data,
+                                              options: options
+                                            });
+      $('#barLegend').html(myBarChart.generateLegend());
+    });
+
+  </script>
+
 {% else %}
 
+
+<!-- 
+    <h2> Artsy Trips Users' Favorites </h2>
+
+      <div class="user-chart">
+        <canvas id="barChart"></canvas>
+        <div id="barLegend" class="chart-legend"></div>s
+      </div>
+
+      <div class="user-chart">
+        <canvas id="lineChart"></canvas>
+        <div id="lineLegend" class="chart-legend"></div>
+      </div>
+
+      <script>
+        var options = {
+          responsive: true
+        };
+
+        // Make bar chart of percentage of different genres favorited.
+        var ctx_bar = $("#barChart").get(0).getContext("2d");
+
+        $.get("/genre-names.json", function (data) {
+          var myBarChart = new Chart(ctx_bar, {
+                                                  type: 'bar',
+                                                  data: data,
+                                                  options: options
+                                                });
+          $('#barLegend').html(myBarChart.generateLegend());
+        });
+
+      </script>
+ -->
     <a href="/login">Login</a><br>
     
     <div class="well spaced" style="width:40%;">
