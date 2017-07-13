@@ -28,11 +28,11 @@ def get_genres_favorited_by_users():
 
     museum_ids = []
     for trip in trips_favorited:
-        trips_favorited.append(trip.museum_id)
+        museum_ids.append(trip.museum_id)
     
     museums = []
     for id in museum_ids:
-        museum = Museum.query.filter_by(museum_id=id)
+        museum = Museum.query.filter_by(museum_id=id).first()
         museums.append(museum)
 
     dict_genres = {}
