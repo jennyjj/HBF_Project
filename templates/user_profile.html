@@ -12,6 +12,42 @@ Profile
 Name: {{ user.name }}<br>
 Email: {{ user.email }}<br>
 
+<div class="comparative-favorite-graph">
+    <h2><center>Your Favorites and Others' Favorites</center></h2>
+    <canvas id="radarChart"></canvas>
+  </div>
+
+  <script>
+    var options = {
+      responsive: true
+    };
+
+    // Make bar chart of number of favorited art genres among users.
+    var ctx_bar = $("#radarChart").get(0).getContext("2d");
+
+    $.get("/users/comparative_favorite_genres.json", function (data) {
+        console.log("Test");
+      var myRadarChart = new Chart(ctx_bar, {
+                                              type: 'radar',
+
+                                              data: data,
+
+                                              options: {
+                                                  
+                                                  scale: {
+        
+                                                  display: true
+                                                  
+                                                  }
+
+                                              }
+                                              
+                                            });
+      console.log(data);
+    });
+
+  </script>
+
 <h2>Trips</h2>
 <ul>
  	{% for trip in trips %}
