@@ -254,9 +254,11 @@ def show_itinerary(genre_code):
     if resp == None:
         return "An error has occurred."   
     restaurant_id, restaurant_name, restaurant_location1, restaurant_location2, restaurant_coordinates, restaurant_image = resp
+    print resp
 
     restaurant_latitude = float(restaurant_coordinates['latitude'])  
-    restaurant_longitude = float(restaurant_coordinates['longitude']) 
+    restaurant_longitude = float(restaurant_coordinates['longitude'])
+
 
     if None in list(resp):
         return "An error has occurred"

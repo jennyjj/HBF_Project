@@ -38,8 +38,18 @@ def get_restaurant(location):
 			continue
 
 	result = response.json()
+	print result
 
 	result_chosen = choice(result['businesses'])
+
+	i = 0
+	while result_chosen['coordinates']['latitude'] == None or result_chosen['coordinates']['longitude'] == None and i < 10:
+		result_chosen = choice(result['businesses'])
+		i += 1	
+
+	if result_chosen['coordinates']['latitude'] == None or result_chosen['coordinates']['longitude'] == None:
+		result_chosen['coordinates']['latitude'] = 0
+		result_chosen['coordinates']['longitude'] = 0
 
 	result_chosen_id = result_chosen['id']
 	result_chosen_name = result_chosen['name']
