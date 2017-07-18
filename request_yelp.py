@@ -42,6 +42,13 @@ def get_restaurant(location):
 
 	result_chosen = choice(result['businesses'])
 
+	result_chosen_id = result_chosen['id']
+	result_chosen_name = result_chosen['name']
+	result_chosen_location = result_chosen['location']['display_address'][0]
+	result_chosen_location2 = result_chosen['location']['display_address'][1]
+	result_chosen_coordinates = result_chosen['coordinates']
+	result_chosen_image = result_chosen['image_url']
+
 	i = 0
 	while result_chosen['coordinates']['latitude'] == None or result_chosen['coordinates']['longitude'] == None and i < 10:
 		result_chosen = choice(result['businesses'])
@@ -50,12 +57,5 @@ def get_restaurant(location):
 	if result_chosen['coordinates']['latitude'] == None or result_chosen['coordinates']['longitude'] == None:
 		result_chosen['coordinates']['latitude'] = 0
 		result_chosen['coordinates']['longitude'] = 0
-
-	result_chosen_id = result_chosen['id']
-	result_chosen_name = result_chosen['name']
-	result_chosen_location = result_chosen['location']['display_address'][0]
-	result_chosen_location2 = result_chosen['location']['display_address'][1]
-	result_chosen_coordinates = result_chosen['coordinates']
-	result_chosen_image = result_chosen['image_url']
 
 	return [result_chosen_id, result_chosen_name, result_chosen_location, result_chosen_location2, result_chosen_coordinates, result_chosen_image]

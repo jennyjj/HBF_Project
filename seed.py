@@ -51,26 +51,26 @@ def load_museums():
     	db.session.commit()
 
 
-def load_users():
-    """Load museums into database."""
+# def load_users():
+#     """Load museums into database."""
 
-    print "Users"
+#     print "Users"
 
-    User.query.delete()
+#     User.query.delete()
 
-    for row in open("seed_data/fake_data.csv"):
-        row = row.rstrip()
+#     for row in open("seed_data/fake_data.csv"):
+#         row = row.rstrip()
 
-        name, email, password = row.split(",")
+#         name, email, password = row.split(",")
 
-        user = User(name=name,
-                    email=email,
-                    password=password)
+#         user = User(name=name,
+#                     email=email,
+#                     password=password)
 
-        db.session.add(user)
+#         db.session.add(user)
 
 
-        db.session.commit()
+#         db.session.commit()
 
 if __name__ == "__main__":
     connect_to_db(app)
@@ -78,4 +78,4 @@ if __name__ == "__main__":
 
     load_genres()
     load_museums()
-    load_users()
+    # load_users()

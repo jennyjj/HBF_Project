@@ -2,6 +2,7 @@ from flask import Flask, request, render_template, flash, redirect, session, jso
 from flask_debugtoolbar import DebugToolbarExtension
 from jinja2 import StrictUndefined
 import os
+import bcrypt
 
 from model import Genre, Museum, Trip, User, connect_to_db, db
 from request_yelp import get_restaurant
@@ -20,6 +21,7 @@ def go_home():
     #         return redirect("/users/%s" % session['user_id'])
     return render_template("index.html")
 
+
 @app.route("/favorite_genres.json")
 def get_genres_favorited_by_users():
     """Return data about genres favorited."""
@@ -35,7 +37,9 @@ def get_genres_favorited_by_users():
         museum = Museum.query.filter_by(museum_id=id).first()
         museums.append(museum)
 
-    dict_genres = {}
+    dict_genres = {'Impressionism': 0, 'Africa, Oceania, the Americas': 0, 
+                    'California Art': 0, 'Jewish Art': 0, 'Expressionism': 0, 
+                    'Chinese Ink Painting': 0, 'Mixed Media': 0, 'Asian Art': 0}
     for museum in museums:
         genre_name = museum.genre.genre_name
         dict_genres[genre_name] = dict_genres.get(genre_name, 0) + 1
@@ -85,12 +89,13 @@ def register_process():
     name = request.form["name"]
     email = request.form["email"]
     password = request.form["password"]
+    password_hashed = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
 
     if User.query.filter_by(email=email).first():
         flash("User %s already exists." % email)
         return redirect("/")
 
-    new_user = User(name=name, email=email, password=password)
+    new_user = User(name=name, email=email, password=password_hashed)
 
     db.session.add(new_user)
     db.session.commit()
@@ -115,6 +120,7 @@ def login_process():
     # Get form variables
     email = request.form["email"]
     password = request.form["password"]
+    password_hashed = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
 
     user = User.query.filter_by(email=email).first()
 
@@ -122,7 +128,7 @@ def login_process():
         flash("No such user")
         return redirect("/login")
 
-    if user.password != password:
+    if (bcrypt.checkpw(password.encode('utf-8'), password_hashed)) == False:
         flash("Incorrect password")
         return redirect("/login")
 
@@ -167,7 +173,9 @@ def get_comparative_genres_favorited():
         museum = Museum.query.filter_by(museum_id=id).first()
         museums_all.append(museum)
 
-    dict_genres_all = {}
+    dict_genres_all = {'Impressionism': 0, 'Africa, Oceania, the Americas': 0, 
+                    'California Art': 0, 'Jewish Art': 0, 'Expressionism': 0, 
+                    'Chinese Ink Painting': 0, 'Mixed Media': 0, 'Asian Art': 0}
     for museum in museums_all:
         genre_name = museum.genre.genre_name
         dict_genres_all[genre_name] = dict_genres_all.get(genre_name, 0) + 1
@@ -206,7 +214,8 @@ def get_comparative_genres_favorited():
     for t in dict_genres_user:
         counts_user.append(t[1])
 
-    print genre_names_all
+    print dict_genres_all
+    print dict_genres_user
     print counts_all
     print counts_user
 
@@ -308,7 +317,7 @@ def get_map(trip_id):
     return render_template("map.html", key=key, trip=trip, user_location=user_location)
 
 
-@app.route('/favorite', methods=["POST"])
+@app.route('/favorite.json', methods=["POST"])
 def mark_favorite_status():
     """Update favorites table as to whether they have a favorited trip."""
 

@@ -60,11 +60,11 @@ Email: {{ user.email }}<br>
 <ul>
  	{% for trip in trips %}
     {% if trip.favorited == False %}
-      <li><button type="button" class="favorite_star" data-trip-id="{{ trip.trip_id }}">
+      <li><button type="button" id="{{ trip.trip_id }}" class="favorite_star" data-trip-id="{{ trip.trip_id }}">
       <span class="glyphicon glyphicon-star" aria-hidden="true"></span> Favorite
       </button> {{ trip.museum.name }}, {{ trip.restaurant_name }} </li>
     {% else %}
-      <li><button type="button" class="favorite_star favorited" data-trip-id="{{ trip.trip_id }}">
+      <li><button type="button" id="{{ trip.trip_id }}" class="favorite_star favorited" data-trip-id="{{ trip.trip_id }}">
       <span class="glyphicon glyphicon-star" aria-hidden="true"></span> Favorite
       </button> {{ trip.museum.name }}, {{ trip.restaurant_name }} </li>
     {% endif %}  
