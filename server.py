@@ -6,6 +6,7 @@ import bcrypt
 
 from model import Genre, Museum, Trip, User, connect_to_db, db
 from request_yelp import get_restaurant
+from favorited_genres import get_favorited_genres_all, get_favorited_genres_user
 
 app = Flask(__name__)
 app.jinja_env.undefined = StrictUndefined
@@ -26,35 +27,38 @@ def go_home():
 def get_genres_favorited_by_users():
     """Return data about genres favorited."""
 
-    trips_favorited = Trip.query.filter_by(favorited=True).all()
+    trips_favorited_all = Trip.query.filter_by(favorited=True).all()
 
-    museum_ids = []
-    for trip in trips_favorited:
-        museum_ids.append(trip.museum_id)
+    genre_names_all, count_all = get_favorited_genres_all(trips_favorited_all)
+
+
+    # museum_ids = []
+    # for trip in trips_favorited:
+    #     museum_ids.append(trip.museum_id)
     
-    museums = []
-    for id in museum_ids:
-        museum = Museum.query.filter_by(museum_id=id).first()
-        museums.append(museum)
+    # museums = []
+    # for id in museum_ids:
+    #     museum = Museum.query.filter_by(museum_id=id).first()
+    #     museums.append(museum)
 
-    dict_genres = {'Impressionism': 0, 'Africa, Oceania, the Americas': 0, 
-                    'California Art': 0, 'Jewish Art': 0, 'Expressionism': 0, 
-                    'Chinese Ink Painting': 0, 'Mixed Media': 0, 'Asian Art': 0}
-    for museum in museums:
-        genre_name = museum.genre.genre_name
-        dict_genres[genre_name] = dict_genres.get(genre_name, 0) + 1
+    # dict_genres = {'Impressionism': 0, 'Africa, Oceania, the Americas': 0, 
+    #                 'California Art': 0, 'Jewish Art': 0, 'Expressionism': 0, 
+    #                 'Chinese Ink Painting': 0, 'Mixed Media': 0, 'Asian Art': 0}
+    # for museum in museums:
+    #     genre_name = museum.genre.genre_name
+    #     dict_genres[genre_name] = dict_genres.get(genre_name, 0) + 1
 
-    genre_names = []
-    counts = []
-    for genre_name, count in dict_genres.items():
-        genre_names.append(genre_name)
-        counts.append(count) 
+    # genre_names = []
+    # counts = []
+    # for genre_name, count in dict_genres.items():
+    #     genre_names.append(genre_name)
+    #     counts.append(count) 
 
     data_dict = {
-            "labels": genre_names,
+            "labels": genre_names_all,
             "datasets": [
                 {
-                    "data": counts,
+                    "data": counts_all,
                     "backgroundColor": [
                         "#FF6384",
                         "#36A2EB",
@@ -164,60 +168,14 @@ def get_comparative_genres_favorited():
 
     trips_favorited_all = Trip.query.filter_by(favorited=True).all()
 
-    museum_ids_all = []
-    for trip in trips_favorited_all:
-        museum_ids_all.append(trip.museum_id)
-    
-    museums_all = []
-    for id in museum_ids_all:
-        museum = Museum.query.filter_by(museum_id=id).first()
-        museums_all.append(museum)
-
-    dict_genres_all = {'Impressionism': 0, 'Africa, Oceania, the Americas': 0, 
-                    'California Art': 0, 'Jewish Art': 0, 'Expressionism': 0, 
-                    'Chinese Ink Painting': 0, 'Mixed Media': 0, 'Asian Art': 0}
-    for museum in museums_all:
-        genre_name = museum.genre.genre_name
-        dict_genres_all[genre_name] = dict_genres_all.get(genre_name, 0) + 1
-
-    dict_genres_all = sorted(dict_genres_all.items())    
-    genre_names_all = []
-    counts_all = []
-    for t in dict_genres_all:
-        genre_names_all.append(t[0])
-        counts_all.append(t[1]) 
+    genre_names_all, counts_all = get_favorited_genres_all(trips_favorited_all)
 
 
     user_id = session['user_id']
-    print user_id
 
     trips_favorited_user = Trip.query.filter_by(favorited=True, user_id=user_id).all()
 
-    museum_ids_user = []
-    for trip in trips_favorited_user:
-        museum_ids_user = [trip.museum_id for trip in trips_favorited_user]
-
-    museums_user = []
-    for id in museum_ids_user:
-        museum = Museum.query.filter_by(museum_id=id).first()
-        museums_user.append(museum)
-
-    dict_genres_user = {'Impressionism': 0, 'Africa, Oceania, the Americas': 0, 
-                    'California Art': 0, 'Jewish Art': 0, 'Expressionism': 0, 
-                    'Chinese Ink Painting': 0, 'Mixed Media': 0, 'Asian Art': 0}
-    for museum in museums_user:
-        genre_name = museum.genre.genre_name
-        dict_genres_user[genre_name] = dict_genres_user.get(genre_name, 0) + 1
-
-    dict_genres_user = sorted(dict_genres_user.items())    
-    counts_user = []
-    for t in dict_genres_user:
-        counts_user.append(t[1])
-
-    print dict_genres_all
-    print dict_genres_user
-    print counts_all
-    print counts_user
+    counts_user = get_favorited_genres_user(trips_favorited_user)
 
 
     data_dict = {
