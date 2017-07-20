@@ -29,30 +29,7 @@ def get_genres_favorited_by_users():
 
     trips_favorited_all = Trip.query.filter_by(favorited=True).all()
 
-    genre_names_all, count_all = get_favorited_genres_all(trips_favorited_all)
-
-
-    # museum_ids = []
-    # for trip in trips_favorited:
-    #     museum_ids.append(trip.museum_id)
-    
-    # museums = []
-    # for id in museum_ids:
-    #     museum = Museum.query.filter_by(museum_id=id).first()
-    #     museums.append(museum)
-
-    # dict_genres = {'Impressionism': 0, 'Africa, Oceania, the Americas': 0, 
-    #                 'California Art': 0, 'Jewish Art': 0, 'Expressionism': 0, 
-    #                 'Chinese Ink Painting': 0, 'Mixed Media': 0, 'Asian Art': 0}
-    # for museum in museums:
-    #     genre_name = museum.genre.genre_name
-    #     dict_genres[genre_name] = dict_genres.get(genre_name, 0) + 1
-
-    # genre_names = []
-    # counts = []
-    # for genre_name, count in dict_genres.items():
-    #     genre_names.append(genre_name)
-    #     counts.append(count) 
+    genre_names_all, counts_all = get_favorited_genres_all(trips_favorited_all)
 
     data_dict = {
             "labels": genre_names_all,
