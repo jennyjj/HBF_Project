@@ -24,3 +24,11 @@
  	height: 12px;
  	margin-right: 5px;
  }
+
+ .art_images {
+        width: 100px;
+        height: 100px;
+        display: inline-block;
+        margin-left: 50px;
+        margin-top: 50px;
+    }

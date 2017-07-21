@@ -4,16 +4,14 @@
 {% block heading %}Follow Your Tastes{% endblock %}
 
 {% block content %}
-<h2>Choose an image...</h2>
-  <div class="row">
+<center><h2>Choose an image...</h2></center>
+  <div class="art_images">
   {% for genre in genres%}
-    <div class="col-xs-12 col-s-12 col-lg-12">
-      <div class="image">
-        <a href="/itinerary/{{genre.genre_code}}" >
-          <img class="image" id="{{ genre.genre_code }}" src="{{ genre.img_url }}" height="250" width="250">
+      <div class="art">
+        <a href="/itinerary/{{ genre.genre_code }}" >
+          <img class="artwork" id="{{ genre.genre_code }}" src="{{ genre.img_url }}" height="250" width="250">
         </a>
       </div>
-    </div>
   {% endfor %}
   </div>
 

@@ -1,18 +1,16 @@
 {% extends 'base.html' %}
 
-{% block title %}User profile{% endblock %}
-{% block heading %}Your profile{% endblock %}
+{% block title %}My Profile Page{% endblock %}
+{% block heading %}My Profile Page{% endblock %}
     
 
 {% block content %}
 
-
-<h2>Your Information</h2><br>
-<h3>Name: {{ user.name }}</h3><br>
-<h3>Email: {{ user.email }}</h3><br>
+<center><h3>Name: {{ user.name }}</h3></center><br>
+<center><h3>Email: {{ user.email }}</h3></center><br>
 
 <div class="comparative-favorite-graph">
-    <h2><center>Your Favorites and Others' Favorites</center></h2>
+    <h2><center>My Favorited Genres and Others' Favorited Genres</center></h2>
     <canvas id="radarChart"></canvas>
   </div>
 
@@ -55,7 +53,9 @@
 
   </script>
 
+<center>
 <h2>Trips</h2>
+</center>
 <ul>
  	{% for trip in trips %}
     {% if trip.favorited == False %}
@@ -68,13 +68,14 @@
       </button> {{ trip.museum.name }}, {{ trip.restaurant_name }} </li>
     {% endif %}  
   {% endfor %}
-</ul><br><br>
+</ul>
+<br><br>
 
   <div class="row">
     <div class="col-xs-offset-4 col-xs-12 col-md-offset-4 col-md-12 col-xs-offset-4 col-lg-12">
       <div class="well spaced" style="width:40%;">
           <div>
-              <h1>Get directions for a trip</h1>
+              <h1>Get Directions for a Trip</h1>
               <form action="/map/from_profile_page" method="POST">
 
                   <div class="form-group">
@@ -102,19 +103,6 @@
     </div>
   </div>  
 
-<!-- <form action='/map/from_profile_page' method="POST">
-	<h3>Trip:</h3>
-	  	<select name="trip_id">
-	  		{% for trip in trips %}
-      			<option value="{{ trip.trip_id }}">{{ trip.museum.name }}, {{ trip.restaurant_name }}</option>
-      	{% endfor %}
-    	</select><br><br>
-    <h3>Your location:</h3>
-    	<input type="text" name="user_location"><br><br>
-    <input type="submit" value="Go to directions">
-</form> -->
-
-<center><a href='/images'><h2>Start planning a trip</h2></a></center>
     
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/
      3.3.7/js/bootstrap.min.js"></script>
