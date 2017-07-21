@@ -5,21 +5,21 @@
 
 {% block content %}
   
-  Why don't you visit this museum:<br><br>
+  <h2>Why don't you visit this museum:</h2><br><br>
 
   {{ museum.name }}<br>
   {{ museum.address1 }}<br>
   {{ museum.address2 }}<br>
   <img class="image" id="museum_image" src="{{ museum.image }}" height="250" width="250">}<br><br>
 
-  and this eatery:<br><br>
+  <h2>and this eatery:</h2><br><br>
 
   {{ restaurant_name }}<br>
   {{ restaurant_location1 }}<br>
   {{ restaurant_location2 }}<br>
   <img class="image" id="{{ restaurant_image }}" src="{{ restaurant_image }}" height="250" width="250"><br><br>
 
-  Tell us where you are and we can make you a map:<br>
+  <h2>Tell us where you are and we can make you a map:</h2><br>
   <form action='/map/{{ trip.trip_id }}' method="POST">
         <div class="form-group">
           <label>Your location address:
@@ -31,7 +31,7 @@
           <input type="submit" value="Get a map and directions" class="btn btn-danger">
         </div>
   </form><br>
-  <a href='/images'>Plan another trip</a><br>
-  <a href='/users/{{ trip.user_id }}'>See your saved trips</a>
+  <a href='/images'><h2>Plan another trip</h2></a><br>
+  <a href='/users/{{ trip.user_id }}'><h2>See your saved trips</h2></a>
 
 {% endblock %}

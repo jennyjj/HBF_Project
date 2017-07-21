@@ -6,11 +6,10 @@
 
 {% block content %}
 
-Profile
 
 <h2>Your Information</h2><br>
-Name: {{ user.name }}<br>
-Email: {{ user.email }}<br>
+<h3>Name: {{ user.name }}</h3><br>
+<h3>Email: {{ user.email }}</h3><br>
 
 <div class="comparative-favorite-graph">
     <h2><center>Your Favorites and Others' Favorites</center></h2>
@@ -71,22 +70,52 @@ Email: {{ user.email }}<br>
   {% endfor %}
 </ul><br><br>
 
-Get directions for a trip
-<form action='/map/from_profile_page' method="POST">
-	Trip:
+  <div class="row">
+    <div class="col-xs-offset-4 col-xs-12 col-md-offset-4 col-md-12 col-xs-offset-4 col-lg-12">
+      <div class="well spaced" style="width:40%;">
+          <div>
+              <h1>Get directions for a trip</h1>
+              <form action="/map/from_profile_page" method="POST">
+
+                  <div class="form-group">
+                      <label>Trip:
+                          <select name="trip_id" required class="form-control">
+                            {% for trip in trips %}
+                               <option value="{{ trip.trip_id }}">{{ trip.museum.name }}, {{ trip.restaurant_name }}</option>
+                            {% endfor %}
+                          </select>
+                      </label>
+                  </div>
+
+                  <div class="form-group">
+                      <label>Your location:
+                          <input type="text" name="user_location" required class="form-control">
+                      </label>
+                  </div>
+
+                  <div class="form-group">
+                      <input type="submit" value="Go to directions!" class="btn btn-danger">
+                  </div>
+              </form>
+          </div>
+      </div>
+    </div>
+  </div>  
+
+<!-- <form action='/map/from_profile_page' method="POST">
+	<h3>Trip:</h3>
 	  	<select name="trip_id">
 	  		{% for trip in trips %}
       			<option value="{{ trip.trip_id }}">{{ trip.museum.name }}, {{ trip.restaurant_name }}</option>
       	{% endfor %}
-    	</select><br>
-    Your location:
-    	<input type="text" name="user_location"><br>
+    	</select><br><br>
+    <h3>Your location:</h3>
+    	<input type="text" name="user_location"><br><br>
     <input type="submit" value="Go to directions">
-</form>
+</form> -->
 
-<a href='/images'>Start planning a trip</a>
-
-
+<center><a href='/images'><h2>Start planning a trip</h2></a></center>
+    
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/
      3.3.7/js/bootstrap.min.js"></script>
 <script src="/static/js/favorites.js"></script>
