@@ -5,14 +5,18 @@
 
 {% block content %}
 <center><h2>Choose an image...</h2></center>
-  <div class="art_images">
-  {% for genre in genres%}
-      <div class="art">
-        <a href="/itinerary/{{ genre.genre_code }}" >
-          <img class="artwork" id="{{ genre.genre_code }}" src="{{ genre.img_url }}" height="250" width="250">
-        </a>
-      </div>
-  {% endfor %}
-  </div>
+
+   <div id="art-list" class="row">
+      {% for genre in genres %}
+          <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 bordered">
+              <div class="individual_art">
+                  <span class="vertical-center"></span>
+                    <a href="/itinerary/{{ genre.genre_code }}">
+                      <img class="artwork rounded" id="{{ genre.genre_code }}" src="{{ genre.img_url }}">
+                    </a>
+              </div>
+          </div>
+      {% endfor %}
+    </div>
 
 {% endblock %}

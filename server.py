@@ -225,7 +225,7 @@ def show_itinerary(genre_code):
                         restaurant_name=restaurant_name, 
                         restaurant_location1=restaurant_location1, 
                         restaurant_location2=restaurant_location2, 
-                        restaurant_image=restaurant_image,
+                        restaurant_image=restaurant_image, 
                         trip=trip)
 
 
@@ -274,7 +274,7 @@ if __name__ == "__main__":
     connect_to_db(app)
     # We have to set debug=True here, since it has to be True at the
     # point that we invoke the DebugToolbarExtension
-    app.debug = True
+    app.debug = False
 
     # Use the DebugToolbar
     DebugToolbarExtension(app)

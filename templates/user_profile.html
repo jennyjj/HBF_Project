@@ -6,8 +6,8 @@
 
 {% block content %}
 
-<center><h3>Name: {{ user.name }}</h3></center><br>
-<center><h3>Email: {{ user.email }}</h3></center><br>
+<center><h2>Name: {{ user.name }}</h2></center><br>
+<center><h2>Email: {{ user.email }}</h2></center><br>
 
 <div class="comparative-favorite-graph">
     <h2><center>My Favorited Genres and Others' Favorited Genres</center></h2>
@@ -54,7 +54,7 @@
   </script>
 
 <center>
-<h2>Trips</h2>
+<h2>Trips</h2><br><br>
 </center>
 <ul>
  	{% for trip in trips %}
@@ -75,27 +75,27 @@
     <div class="col-xs-offset-4 col-xs-12 col-md-offset-4 col-md-12 col-xs-offset-4 col-lg-12">
       <div class="well spaced" style="width:40%;">
           <div>
-              <h1>Get Directions for a Trip</h1>
+              <center><h1>Get Directions for a Trip</h1></center>
               <form action="/map/from_profile_page" method="POST">
 
                   <div class="form-group">
-                      <label>Trip:
+                      <center><label>Trip:
                           <select name="trip_id" required class="form-control">
                             {% for trip in trips %}
                                <option value="{{ trip.trip_id }}">{{ trip.museum.name }}, {{ trip.restaurant_name }}</option>
                             {% endfor %}
                           </select>
-                      </label>
+                      </label></center>
                   </div>
 
                   <div class="form-group">
-                      <label>Your location:
+                      <center><label>Your location:
                           <input type="text" name="user_location" required class="form-control">
-                      </label>
+                      </label></center>
                   </div>
 
                   <div class="form-group">
-                      <input type="submit" value="Go to directions!" class="btn btn-danger">
+                      <center><input type="submit" value="Go to directions!" class="btn btn-danger"></center>
                   </div>
               </form>
           </div>

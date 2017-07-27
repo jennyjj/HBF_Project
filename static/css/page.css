@@ -1,16 +1,25 @@
- #map {
+body {
+    font-family: "Arial", sans-serif;
+    background-image: url("/static/Van_Gogh.png");
+}
+
+
+h1, h2, h3, h4 {
+    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif
+}
+
+#map {
     height: 100%;
     }
-
  
 .favorite_star {
  	cursor: pointer;
- 	color: red;
+ 	color: #ff6699;
  }
 
  .favorite_star.favorited {
  	cursor: pointer;
- 	color: green;
+ 	color: #00cc99;
  }
 
  .favorite-graph {
@@ -25,10 +34,31 @@
  	margin-right: 5px;
  }
 
- .art_images {
-        width: 100px;
-        height: 100px;
-        display: inline-block;
-        margin-left: 50px;
-        margin-top: 50px;
-    }
+.bordered {
+    border: 4px solid #999; 
+}
+
+.artwork {
+    max-height: 300px; 
+    max-width: 300px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+   /* margin-left: auto;
+    display: inline-block;
+    vertical-align: middle;*/
+}
+
+.individual_art {
+    height:400px;
+    width:100%;
+}
+
+.vertical-center {
+    height: 100%;
+    vertical-align: middle;
+    display: inline-block;
+}

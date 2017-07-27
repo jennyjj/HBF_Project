@@ -124,7 +124,6 @@ def connect_to_db(app, db_uri='postgres:///artsytrips'):
     """Connect the database to our Flask app."""
 
     # Configure to use our database.
-
     app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
     app.config['SQLALCHEMY_ECHO'] = False
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
