@@ -1,8 +1,7 @@
 """Models and database functions for artsytrips db."""
 
 from flask_sqlalchemy import SQLAlchemy
-from flask.ext.security import current_user, login_required, RoleMixin, Security, \
-    SQLAlchemyUserDatastore, UserMixin, utils
+
 
 # Here's where we create the idea of our database. We're getting this through
 # the Flask-SQLAlchemy library. On db, we can find the `session`
