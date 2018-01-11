@@ -1,6 +1,8 @@
 """Models and database functions for artsytrips db."""
 
 from flask_sqlalchemy import SQLAlchemy
+from flask.ext.security import current_user, login_required, RoleMixin, Security, \
+    SQLAlchemyUserDatastore, UserMixin, utils
 
 # Here's where we create the idea of our database. We're getting this through
 # the Flask-SQLAlchemy library. On db, we can find the `session`
@@ -75,7 +77,7 @@ class User(db.Model):
     password = db.Column(db.String(100), nullable=False)
 
     def __repr__(self):
-        return "<User id=%s name=%s email=%s>" % (self.user_id, self.name, self.email)
+        return "<User id=%s user_name=%s email=%s>" % (self.user_id, self.user_name, self.email)
 
 
 def example_data():
