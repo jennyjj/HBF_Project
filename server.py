@@ -104,12 +104,14 @@ def login_process():
     password_hashed = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
 
     user = User.query.filter_by(email=email).first()
+    password_to_check = user.password
 
     if not user:
         flash("No such user")
         return redirect("/login")
 
-    if (bcrypt.checkpw(password.encode('utf-8'), password_hashed)) == False:
+#     if (bcrypt.checkpw(password.encode('utf-8'), password_hashed)) == False:
+    if (bcrypt.checkpw(password_to_check, password_hashed)) == False:
         flash("Incorrect password")
         return redirect("/login")
 
